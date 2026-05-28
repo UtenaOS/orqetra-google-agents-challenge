@@ -1,0 +1,63 @@
+{
+  "ok": true,
+  "demoTitle": "Orqetra - Teach Once, Run Safely",
+  "demoConcept": "Turning human workflows into enterprise AI skills.",
+  "generalizedSkillContract": {
+    "workflowFamily": "web_research_submission_pack_workflow",
+    "skillName": "Research a source URL and create a preparation artifact",
+    "primitiveChain": [
+      "browser_open_url",
+      "browser_verify_page_loaded",
+      "browser_extract_page_text_safe",
+      "artifact_create_text",
+      "artifact_verify_exists",
+      "artifact_download_link"
+    ],
+    "requiredInputSchema": [
+      {
+        "name": "source_url",
+        "type": "url"
+      },
+      {
+        "name": "output_format",
+        "type": "enum"
+      },
+      {
+        "name": "artifact_title",
+        "type": "string"
+      }
+    ],
+    "valueBoundary": {
+      "sharedSkillStoresOperationShapeOnly": true,
+      "runtimeInputBindingRequired": true,
+      "runtimeValuesStoredInSharedSkill": false,
+      "specificUrlStoredInSharedSkill": false
+    }
+  },
+  "runtimeInputBinding": {
+    "semanticRole": "runtime_input_binding",
+    "sharedSkillIncludesValues": false,
+    "redactedValues": {
+      "source_url": "[redacted:example]"
+    }
+  },
+  "approvalPreview": {
+    "previewAvailable": true,
+    "approvalRequiredBeforeRun": true,
+    "autoExecute": false
+  },
+  "artifact": null,
+  "googleCloud": {
+    "cloudRun": {
+      "runtimeStatus": "active"
+    },
+    "vertexAiGemini": {
+      "status": "vertex_live_v1"
+    },
+    "cloudLoggingAudit": {
+      "eventTypes": [
+        "orqetra.demo.preview_created"
+      ]
+    }
+  }
+}

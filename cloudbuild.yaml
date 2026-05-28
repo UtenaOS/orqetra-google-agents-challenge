@@ -1,0 +1,13 @@
+substitutions:
+  _IMAGE: us-central1-docker.pkg.dev/orqetra-agents-challenge/orqetra-demo/orqetra-google-agents-challenge-reference:manual
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -t
+      - ${_IMAGE}
+      - .
+
+images:
+  - ${_IMAGE}

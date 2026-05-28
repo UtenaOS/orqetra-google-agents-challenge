@@ -1,67 +1,91 @@
-# Orqetra — Teach Once, Run Safely
+# Orqetra - Teach Once, Run Safely
 
-**Turning human workflows into enterprise AI skills.**
+Turning human workflows into enterprise AI skills.
 
-Orqetra is an approval-based execution system that turns human workflows into reusable AI skills.
+This folder is the public Google AI Agents Challenge reference package for Orqetra. It is designed to be copied into the public `orqetra-google-agents-challenge` repository.
 
-This repository contains the public challenge demo implementation and documentation for Orqetra’s Google AI Agents Challenge submission. The production Orqetra codebase, internal agents, private logs, credentials, and user data are not included.
+It intentionally does **not** include the proprietary Orqetra execution core, Windows Agent, Browser Observation extension, production configs, secrets, private logs, or user data.
 
-## Testing Access
+## Testing access
 
-Testing access is available here:
+Hosted Cloud Run demo:
 
+```text
 https://orqetra-agents-demo-wowuwwbtrq-uc.a.run.app/demo/google-ai-agents-challenge
+```
 
-The demo runs on Google Cloud Run and exposes only the Google AI Agents Challenge demo route.
+The hosted page lets judges test the safe replay flow without installing the Windows Agent or Browser Observation extension:
 
-## What the Demo Shows
+1. Keep the sample inputs or edit them.
+2. Click `Create Preview`.
+3. Confirm no artifact is created during preview.
+4. Click `Approve Run & Generate Artifact`.
+5. Download the deterministic Markdown artifact.
 
-The demo demonstrates the core Orqetra execution contract:
+## What this reference shows
 
-1. A reusable skill contract
-2. Runtime-only input binding
-3. Preview before execution
-4. Explicit human approval
-5. Artifact generation only after approval
-6. Downloadable Markdown artifact
-7. Structured audit logging
-8. Private route blocking
+- `generalizedSkillContract`: the reusable skill shape.
+- `runtimeInputBinding`: per-run values that are not stored in the shared skill.
+- `approvalPreview`: execution preview with `autoExecute:false`.
+- Approved artifact generation.
+- Structured Cloud Logging audit events.
+- Demo-only route protection for Cloud Run.
+- Agent Card example for marketplace/readiness discussion.
 
-## Safety Principles
+## Google Cloud usage
 
-- Auto Execute: false
-- Human approval is required before execution
-- Runtime values are not stored in shared skills
-- The Cloud Run demo exposes only `/demo/google-ai-agents-challenge`
-- Private routes such as `/v1/threads` and `/v1/system/build-info` are blocked
-- No production secrets, private logs, or user data are included in this repository
+- Cloud Run hosts the demo service.
+- Vertex AI Gemini evaluates the generalized skill candidate when enabled.
+- Cloud Logging stores audit events:
+  - `orqetra.demo.preview_created`
+  - `orqetra.demo.run_approved`
+  - `orqetra.demo.artifact_generated`
+  - `orqetra.demo.vertex_evaluated`
 
-## Google Cloud Usage
+## Repository boundary
 
-This challenge demo uses:
+Do not commit:
 
-- Google Cloud Run for the public testing access runtime
-- Artifact Registry for container images
-- Cloud Build for clean container builds
-- Cloud Logging for structured audit events
-- Agent Platform API / Vertex AI Gemini integration is wired with live status surfaced in the UI
+- `.env`
+- Supabase keys
+- Google credentials
+- production configs
+- private logs
+- raw observation logs
+- real user data
+- raw URLs from private users
+- file paths
+- clipboard content
+- proprietary Orqetra core code
+- Windows Agent source
+- Browser Observation source
 
-## Confirmed Cloud Logging Events
+## Files
 
-The demo writes structured audit events such as:
+```text
+src/demo-server.mjs                 Minimal public reference implementation
+src/contracts.mjs                   Public demo contracts
+samples/agent-card.example.json     Agent Card example
+samples/sample-audit-log.json       Cloud Logging event example
+samples/sample-preview-response.json Preview response example
+docs/architecture.md                Architecture overview
+docs/safety-boundary.md             Safety boundary
+docs/cloud-run.md                   Cloud Run deployment notes
+Dockerfile                          Minimal reference Dockerfile
+cloudbuild.yaml                     Cloud Build example
+```
 
-- `orqetra.demo.preview_created`
-- `orqetra.demo.run_approved`
-- `orqetra.demo.artifact_generated`
+## Local reference run
 
-## Repository Scope
+```bash
+npm install
+npm start
+```
 
-This is not the full production Orqetra codebase.
+Then open:
 
-This repository is a public challenge demo reference that documents and demonstrates the approval-based execution flow used in the submitted testing access environment.
+```text
+http://localhost:8080/demo/google-ai-agents-challenge
+```
 
-## Project Status
-
-Cloud Run testing access, preview, approval, artifact generation, download, and Cloud Logging audit events are working.
-
-Agent Platform API / Vertex AI Gemini evaluation is wired and surfaced in the UI. Full successful live evaluation is treated as an optional enhancement.
+This reference implementation is deterministic and intentionally small. The hosted Orqetra demo uses the production execution OS contract with the same safety boundary.

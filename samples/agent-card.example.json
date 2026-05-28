@@ -1,0 +1,59 @@
+{
+  "schema_version": "orqetra-agent-card-v1",
+  "name": "Orqetra",
+  "description": "Execution OS that learns human browser and desktop workflows once, generalizes them into reusable enterprise skills, and runs only after safe preview and human approval.",
+  "capabilities": [
+    "start_learning_from_browser_and_windows_actions",
+    "generalize_observed_actions_into_skill_contracts",
+    "separate_runtime_input_bindings_from_shared_skill_contracts",
+    "approval_preview_before_run",
+    "artifact_generation_and_download",
+    "cloud_audit_logging"
+  ],
+  "required_human_approval": true,
+  "auto_execute": false,
+  "supported_inputs": [
+    "url",
+    "output_format",
+    "artifact_title",
+    "save_folder",
+    "submission_goal"
+  ],
+  "supported_outputs": [
+    "text_artifact",
+    "markdown_artifact",
+    "download_link",
+    "audit_log_event"
+  ],
+  "runtime": {
+    "primary": "Cloud Run",
+    "local_runtime_bridge": "Windows Agent"
+  },
+  "model_use": {
+    "primary": "Vertex AI Gemini",
+    "purpose": "Promotion Quality Judge, generalized skill contract review, verification plan explanation"
+  },
+  "audit_logging": {
+    "provider": "Google Cloud Logging",
+    "event_types": [
+      "orqetra.demo.preview_created",
+      "orqetra.demo.run_approved",
+      "orqetra.demo.artifact_generated",
+      "orqetra.demo.vertex_evaluated"
+    ]
+  },
+  "safety_boundary": {
+    "runtime_input_binding": true,
+    "redaction": true,
+    "shared_skill_contains_private_values": false,
+    "blocked_primitives": [
+      "submit",
+      "send",
+      "purchase",
+      "payment",
+      "delete"
+    ],
+    "approval_required_before_run": true,
+    "auto_execute": false
+  }
+}

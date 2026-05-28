@@ -1,0 +1,21 @@
+{
+  "severity": "INFO",
+  "eventType": "orqetra.demo.preview_created",
+  "auditLogId": "audit-example",
+  "demoRunId": "google-agents-demo-example",
+  "actorId": "demo-reviewer",
+  "ownerUserId": "[redacted:example]",
+  "approvalState": "preview",
+  "autoExecute": false,
+  "approvalRequiredBeforeRun": true,
+  "runtimeInputKeys": [
+    "source_url",
+    "output_format",
+    "artifact_title",
+    "save_folder",
+    "submission_goal"
+  ],
+  "generalizedSkill": "Research a source URL and create a preparation artifact",
+  "artifactCreated": false,
+  "cloudRunService": "orqetra-demo"
+}
